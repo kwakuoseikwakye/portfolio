@@ -1,12 +1,11 @@
 import { Metadata } from 'next'
 
-// TODO: Update metadata
 
 export function constructMetadata({
-  title = 'Chris Lonzo', // TODO: Add a custom title
-  description = "I am a software engineer with a passion for building scalable and efficient web applications.", // TODO: Add a custom description
-  image = '/thumbnail.png', // TODO: Add a custom image
-  icons = '/avatar.svg', // TODO: Add a custom icon
+  title = 'Osei Kwakye',
+  description = "I am a software engineer with a passion for building scalable and efficient web applications.",
+  image = '/thumbnail.png',
+  icons = '/kwaku.jpeg',
   noIndex = false
 }: {
   title?: string

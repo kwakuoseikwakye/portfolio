@@ -38,7 +38,7 @@ const techColors = {
     "Vue.js": "bg-purple-500",
     "Python": "bg-purple-600",
     "Javascript": "bg-yellow-300",
-    "PHP": "bg-blue-700",
+    "PHP": "bg-purple-800",
 }
 
 export const Projects = () => {
