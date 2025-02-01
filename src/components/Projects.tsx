@@ -10,7 +10,7 @@ export const projects = [
         title: "Micholin",
         description: "An AI platform for generating personal videos in different languages",
         tech: "TypeScript",
-        link: "https://wwww.michol.in",
+        link: "https://www.michol.in",
     },
     {
         title: "FundPeck",
