@@ -29,7 +29,7 @@ export function constructMetadata({
       images: [image],
       creator: '@kwakuoseikwakye'
     },
-    // icons,
+    icons,
     metadataBase: new URL('https://www.kwakuoseikwakye.com'),
     ...(noIndex && {
       robots: {
