@@ -27,10 +27,10 @@ export function constructMetadata({
       title,
       description,
       images: [image],
-      creator: '@chrislonzo'
+      creator: '@kwakuoseikwakye'
     },
     icons,
-    metadataBase: new URL('https://www.chrislonzo.com'),
+    metadataBase: new URL('https://www.kwakuoseikwakye.com'),
     ...(noIndex && {
       robots: {
         index: false,
