@@ -28,7 +28,7 @@ export const projects = [
         title: "Nanascript starter kit",
         description: "A simplified light weight express.js starter kit for writing APIs quickly.",
         tech: "Javascript",
-        link: "www.npmjs.com/package/nanascript-express-api-starter-kit",
+        link: "https://www.npmjs.com/package/nanascript-express-api-starter-kit",
     },
 ]
 
