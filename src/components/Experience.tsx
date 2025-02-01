@@ -40,7 +40,7 @@ const jobs = [
         link: "https://gitplus.app",
         images: [
             "/gitplus1.jpeg",
-            "/devvault.png",
+            "/gitplus2.jpeg",
         ],
     },
 ]

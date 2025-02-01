@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 export const projects = [
     {
         title: "Micholin",
-        description: "An AI platfrom for generating videos",
+        description: "An AI platform for generating personal videos in different languages",
         tech: "TypeScript",
         link: "https://wwww.michol.in",
     },
