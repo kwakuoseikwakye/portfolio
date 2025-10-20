@@ -4,7 +4,6 @@ import {
     CardTitle,
     CardContent
 } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 // TODO: Update skills
 const skills = ["TypeScript", "JavaScript", "NextJs", "Python", "FastApi", "PHP", "Laravel", "Go", "GinFramework"]
 
