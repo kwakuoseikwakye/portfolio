@@ -45,7 +45,7 @@ export const Profile = () => {
                                 width={150}
                                 height={150}
                                 quality={100}
-                                src="/kwaku.jpeg"
+                                src="/kwaku.png"
                                 alt="Profile Picture"
                                 className="rounded-full size-12 md:w-full h-auto object-cover border-2"
                             />
@@ -59,10 +59,10 @@ export const Profile = () => {
                         {!isDesktopOrLaptop && <ThemeSwitcher />}
                     </div>
 
-                    <p className="mt-2 text-start text-sm text-muted-foreground">
+                    {/* <p className="mt-2 text-start text-sm text-muted-foreground">
                     I am software engineer with strong time management and collaborative skills gained through over 5 years of
                     experience in modern software engineering in different local and international environments.
-                    </p>
+                    </p> */}
                     <Button className="mt-4 w-full" asChild>
                         {/* TODO: Add resume */}
                         {/* TODO: Add link to schedule a call with you using Calendly or Cal */}
