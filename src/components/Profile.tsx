@@ -49,8 +49,8 @@ export const Profile = () => {
                                 <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 to-transparent"></div>
                             </div>
                             <div className="flex flex-col items-start justify-center">
-                                <h1 className="font-bold md:mt-4 text-xl md:text-3xl text-white">Kwaku Osei Kwakye</h1>
-                                <p className="text-sm md:text-lg text-white/80 font-medium">
+                                <h1 className="font-bold md:mt-4 text-xl md:text-3xl text-gray-800">Kwaku Osei Kwakye</h1>
+                                <p className="text-sm md:text-lg text-gray-600 font-medium">
                                     Software Engineer
                                 </p>
                             </div>
@@ -66,7 +66,7 @@ export const Profile = () => {
                             CONTACT ME
                         </Link>
                     </Button>
-                    <div className="mt-6 flex flex-col space-y-3 border-t border-white/20 pt-6 w-full">
+                    <div className="mt-6 flex flex-col space-y-3 border-t border-gray-200 pt-6 w-full">
                         {socials.map((s, i) => {
                             const parts = s.link.split("/");
                             const username = parts[parts.length - 1];
@@ -76,12 +76,12 @@ export const Profile = () => {
                                     key={i}
                                     href={s.link}
                                     target="_blank"
-                                    className="cursor-pointer flex items-center gap-3 group p-2 rounded-xl hover:bg-white/10 transition-all duration-300"
+                                    className="cursor-pointer flex items-center gap-3 group p-2 rounded-xl hover:bg-gray-100 transition-all duration-300"
                                 >
-                                    <div className="text-white/80 group-hover:text-white transition-colors duration-300">
+                                    <div className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
                                         {s.icon}
                                     </div>
-                                    <span className="text-sm text-white/70 group-hover:text-white transition-colors duration-300 font-medium">
+                                    <span className="text-sm text-gray-500 group-hover:text-gray-700 transition-colors duration-300 font-medium">
                                         /{username}
                                     </span>
                                 </Link>

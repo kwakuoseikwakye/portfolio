@@ -44,7 +44,7 @@ const techColors = {
 export const Projects = () => {
     return (
         <>
-            <h2 className="text-3xl font-bold mb-8 text-white">
+            <h2 className="text-3xl font-bold mb-8 text-gray-800">
                 Featured Projects
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -54,11 +54,11 @@ export const Projects = () => {
                             <div className="flex flex-col h-full">
                                 <Link
                                     href={p.link}
-                                    className="font-bold text-xl text-white group-hover:text-blue-300 transition-colors duration-300"
+                                    className="font-bold text-xl text-gray-800 group-hover:text-blue-600 transition-colors duration-300"
                                 >
                                     {p.title}
                                 </Link>
-                                <p className="text-white/80 mt-3 mb-6 leading-relaxed">
+                                <p className="text-gray-600 mt-3 mb-6 leading-relaxed">
                                     {p.description}
                                 </p>
                                 <div className="mt-auto flex items-center justify-between">
@@ -69,13 +69,13 @@ export const Projects = () => {
                                                 techColors[p.tech as keyof typeof techColors]
                                             )}
                                         />
-                                        <span className="text-sm font-medium text-white/70">
+                                        <span className="text-sm font-medium text-gray-500">
                                             {p.tech}
                                         </span>
                                     </div>
                                     <Link
                                         href={p.link}
-                                        className="flex items-center gap-2 text-sm text-blue-300 hover:text-blue-200 transition-colors duration-300 font-medium"
+                                        className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-500 transition-colors duration-300 font-medium"
                                     >
                                         View Project
                                         <ExternalLink className="inline-block size-4" />

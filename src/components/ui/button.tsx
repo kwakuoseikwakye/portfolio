@@ -9,14 +9,14 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "glass-button text-white font-semibold",
+        default: "glass-button text-gray-800 font-semibold",
         destructive:
-          "bg-red-500/20 text-red-400 border-red-400/30 hover:bg-red-500/30 backdrop-blur-sm",
+          "bg-red-500/20 text-red-600 border-red-400/30 hover:bg-red-500/30 backdrop-blur-sm",
         outline:
-          "glass-button border-white/20 text-white hover:bg-white/10",
+          "glass-button border-gray-300 text-gray-800 hover:bg-gray-100",
         secondary:
-          "glass-button text-white/90 hover:bg-white/20",
-        ghost: "hover:bg-white/10 text-white/80 hover:text-white",
+          "glass-button text-gray-700 hover:bg-gray-100",
+        ghost: "hover:bg-gray-100 text-gray-600 hover:text-gray-800",
         link: "text-primary underline-offset-4 hover:underline",
       },
       size: {

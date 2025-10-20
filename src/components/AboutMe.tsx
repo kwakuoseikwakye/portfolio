@@ -11,10 +11,10 @@ export const AboutMe = () => {
 
     <Card className="backdrop-blur-xl">
         <CardHeader className="pb-4">
-            <CardTitle className="text-2xl font-bold text-white">About Me</CardTitle>
+            <CardTitle className="text-2xl font-bold text-gray-800">About Me</CardTitle>
         </CardHeader>
         <CardContent>
-            <p className="text-white/80 text-lg leading-relaxed">
+            <p className="text-gray-600 text-lg leading-relaxed">
                 I am a software engineer with a passion for building scalable and efficient web applications. 
                 With over 5 years of experience in modern software engineering, I specialize in creating 
                 innovative solutions that drive business growth and enhance user experiences.

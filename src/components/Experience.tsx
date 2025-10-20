@@ -48,12 +48,12 @@ const jobs = [
 export const Experience = () => {
     return (
         <>
-           <h2 className="text-3xl font-bold mb-8 text-white">Work Experience</h2>
+           <h2 className="text-3xl font-bold mb-8 text-gray-800">Work Experience</h2>
             <Card className="backdrop-blur-xl">
                 <CardContent className="pt-8">
                     <ul className="space-y-10">
                         {jobs.map((j, i) => (
-                            <li key={i} className="border-b border-white/20 last:border-b-0 pb-10 last:pb-0">
+                            <li key={i} className="border-b border-gray-200 last:border-b-0 pb-10 last:pb-0">
                                 {/* Job Details */}
                                 <div className="flex items-center space-x-6">
                                     <div className="relative">
@@ -62,24 +62,24 @@ export const Experience = () => {
                                             alt={j.company}
                                             width={80}
                                             height={80}
-                                            className="rounded-2xl border-2 border-white/30 shadow-2xl object-cover"
+                                            className="rounded-2xl border-2 border-gray-200 shadow-2xl object-cover"
                                         />
                                         <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 to-transparent"></div>
                                     </div>
                                     <div>
-                                        <h3 className="font-bold text-xl text-white">
+                                        <h3 className="font-bold text-xl text-gray-800">
                                             {j.role}
                                         </h3>
-                                        <p className="text-lg text-white/80 font-medium">
+                                        <p className="text-lg text-gray-600 font-medium">
                                             {j.company}
                                         </p>
                                     </div>
                                 </div>
-                                <p className="text-sm text-white/70 mt-3 flex items-center">
+                                <p className="text-sm text-gray-500 mt-3 flex items-center">
                                     <CalendarDays className="size-4 mr-3"/>
                                     {j.duration}
                                 </p>
-                                <p className="text-white/80 mt-4 leading-relaxed">{j.description}</p>
+                                <p className="text-gray-600 mt-4 leading-relaxed">{j.description}</p>
                                 {/* Job Images */}
                                 <JobImages 
                                     role={j.role} 
