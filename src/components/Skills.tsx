@@ -10,14 +10,16 @@ const skills = ["TypeScript", "JavaScript", "NextJs", "Python", "FastApi", "PHP"
 
 export const Skills = () => {
     return (
-        <Card className="mt-6">
-            <CardHeader>
-                <CardTitle>Skills</CardTitle>
+        <Card className="mt-8 backdrop-blur-xl">
+            <CardHeader className="pb-4">
+                <CardTitle className="text-2xl font-bold text-white">Skills</CardTitle>
             </CardHeader>
             <CardContent>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-3">
                     {skills.map((s, i) => (
-                        <Badge key={i} variant="secondary">{s}</Badge>
+                        <div key={i} className="glass-badge text-white/90 font-medium text-sm">
+                            {s}
+                        </div>
                     ))}
                 </div>
             </CardContent>

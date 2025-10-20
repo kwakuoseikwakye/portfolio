@@ -1,7 +1,6 @@
 'use client'
 import Link from "next/link";
 import Image from "next/image";
-import useMediaQuery from "@/hook/useMediaQuery";
 
 import { FaStackOverflow } from "react-icons/fa6";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
@@ -11,7 +10,6 @@ import {
     CardContent
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
 
 const socials = [
     {
@@ -33,48 +31,42 @@ const socials = [
 ]
 
 export const Profile = () => {
-    const isDesktopOrLaptop = useMediaQuery("(min-width: 1224px)");
-
     return (
-        <Card>
-            <CardContent className="pt-6">
-                <div className="flex flex-col items-start gap-2 ">
-                    <div className="w-full flex flex-row justify-between items-top ">
-                        <div className="flex flex-row md:flex-col items-center md:items-start w-full gap-4">
-                            <Image
-                                width={150}
-                                height={150}
-                                quality={100}
-                                src="/kwaku.png"
-                                alt="Profile Picture"
-                                className="rounded-full size-12 md:w-full h-auto object-cover border-2"
-                            />
+        <Card className="backdrop-blur-xl">
+            <CardContent className="pt-8 pb-8">
+                <div className="flex flex-col items-start gap-4">
+                    <div className="w-full flex flex-row justify-between items-top">
+                        <div className="flex flex-row md:flex-col items-center md:items-start w-full gap-6">
+                            <div className="relative">
+                                <Image
+                                    width={150}
+                                    height={150}
+                                    quality={100}
+                                    src="/kwaku.png"
+                                    alt="Profile Picture"
+                                    className="rounded-2xl size-16 md:w-32 h-32 object-cover border-2 border-white/30 shadow-2xl"
+                                />
+                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 to-transparent"></div>
+                            </div>
                             <div className="flex flex-col items-start justify-center">
-                                <h1 className="font-bold md:mt-4 text-xl md:text-2xl">Kwaku Osei Kwakye</h1>
-                                <p className="text-sm md:text-base text-muted-foreground">
+                                <h1 className="font-bold md:mt-4 text-xl md:text-3xl text-white">Kwaku Osei Kwakye</h1>
+                                <p className="text-sm md:text-lg text-white/80 font-medium">
                                     Software Engineer
                                 </p>
                             </div>
                         </div>
-                        {!isDesktopOrLaptop && <ThemeSwitcher />}
                     </div>
 
-                    {/* <p className="mt-2 text-start text-sm text-muted-foreground">
-                    I am software engineer with strong time management and collaborative skills gained through over 5 years of
-                    experience in modern software engineering in different local and international environments.
-                    </p> */}
-                    <Button className="mt-4 w-full" asChild>
-                        {/* TODO: Add resume */}
-                        {/* TODO: Add link to schedule a call with you using Calendly or Cal */}
+                    <Button className="mt-6 w-full text-base font-bold" asChild>
                         <Link
                             href="/resume.pdf"
                             target="_blank"
-                            className="font-semibold uppercase"
+                            className="font-bold uppercase tracking-wide"
                         >
                             CONTACT ME
                         </Link>
                     </Button>
-                    <div className="mt-4 flex flex-col space-y-2 border-t border-border pt-4 w-full">
+                    <div className="mt-6 flex flex-col space-y-3 border-t border-white/20 pt-6 w-full">
                         {socials.map((s, i) => {
                             const parts = s.link.split("/");
                             const username = parts[parts.length - 1];
@@ -84,10 +76,12 @@ export const Profile = () => {
                                     key={i}
                                     href={s.link}
                                     target="_blank"
-                                    className="cursor-pointer flex items-center gap-2 group"
+                                    className="cursor-pointer flex items-center gap-3 group p-2 rounded-xl hover:bg-white/10 transition-all duration-300"
                                 >
-                                    {s.icon}
-                                    <span className="text-sm text-muted-foreground group-hover:text-primary transition-color duration-200 ease-linear">
+                                    <div className="text-white/80 group-hover:text-white transition-colors duration-300">
+                                        {s.icon}
+                                    </div>
+                                    <span className="text-sm text-white/70 group-hover:text-white transition-colors duration-300 font-medium">
                                         /{username}
                                     </span>
                                 </Link>

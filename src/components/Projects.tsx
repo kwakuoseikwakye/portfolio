@@ -44,41 +44,41 @@ const techColors = {
 export const Projects = () => {
     return (
         <>
-            <h2 className="text-xl font-bold mb-4">
+            <h2 className="text-3xl font-bold mb-8 text-white">
                 Featured Projects
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {projects.map((p, i) => (
-                    <Card key={i}>
+                    <Card key={i} className="backdrop-blur-xl hover:scale-105 transition-all duration-300 group">
                         <CardContent className="pt-6 h-full">
                             <div className="flex flex-col h-full">
                                 <Link
                                     href={p.link}
-                                    className="font-semibold text-primary hover:underline"
+                                    className="font-bold text-xl text-white group-hover:text-blue-300 transition-colors duration-300"
                                 >
                                     {p.title}
                                 </Link>
-                                <p className="text-sm text-muted-foreground mt-1 mb-4">
+                                <p className="text-white/80 mt-3 mb-6 leading-relaxed">
                                     {p.description}
                                 </p>
                                 <div className="mt-auto flex items-center justify-between">
-                                    <div className="flex items-center space-x-2">
+                                    <div className="flex items-center space-x-3">
                                         <div
                                             className={cn(
-                                                "size-4 rounded-full",
+                                                "size-5 rounded-full shadow-lg",
                                                 techColors[p.tech as keyof typeof techColors]
                                             )}
                                         />
-                                        <span className="text-xs font-medium text-muted-foreground">
+                                        <span className="text-sm font-medium text-white/70">
                                             {p.tech}
                                         </span>
                                     </div>
                                     <Link
                                         href={p.link}
-                                        className="flex items-center gap-2 text-sm text-primary hover:underline"
+                                        className="flex items-center gap-2 text-sm text-blue-300 hover:text-blue-200 transition-colors duration-300 font-medium"
                                     >
                                         View Project
-                                        <ExternalLink className="inline-block size-3" />
+                                        <ExternalLink className="inline-block size-4" />
                                     </Link>
                                 </div>
                             </div>

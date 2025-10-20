@@ -1,27 +1,23 @@
-'use client'
 import {
     Card,
     CardTitle,
     CardHeader,
     CardContent
 } from "@/components/ui/card";
-import ThemeSwitcher from "@/components/ui/ThemeSwitcher";
-import useMediaQuery from "@/hook/useMediaQuery";
 
 
 export const AboutMe = () => {
-    const isDesktopOrLaptop  = useMediaQuery("(min-width: 1224px)");
     return (    
 
-    <Card className="mb-6">
-        <CardHeader className="flex flex-row justify-between items-baseline">
-            <CardTitle>About Me</CardTitle>
-            {isDesktopOrLaptop && <ThemeSwitcher />}
+    <Card className="backdrop-blur-xl">
+        <CardHeader className="pb-4">
+            <CardTitle className="text-2xl font-bold text-white">About Me</CardTitle>
         </CardHeader>
         <CardContent>
-            <p className="text-muted-foreground">
-                {/* Write 1-2 sentences about yourself */}
-                I am a software engineer with a passion for building scalable and efficient web applications.
+            <p className="text-white/80 text-lg leading-relaxed">
+                I am a software engineer with a passion for building scalable and efficient web applications. 
+                With over 5 years of experience in modern software engineering, I specialize in creating 
+                innovative solutions that drive business growth and enhance user experiences.
             </p>
         </CardContent>
     </Card>
