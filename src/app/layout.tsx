@@ -1,10 +1,21 @@
+import type { Metadata } from "next";
+import { Inter, Outfit } from "next/font/google";
 import "./globals.css";
 
-import { cn } from "@/lib/utils";
-import { nunito } from "./fonts/fonts";
-import { constructMetadata } from "@/lib/metadata";
-import {ThemeProvider} from "@/context/ThemeContext";
-export const metadata = constructMetadata();
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+});
+
+const outfit = Outfit({
+  subsets: ["latin"],
+  variable: "--font-outfit",
+});
+
+export const metadata: Metadata = {
+  title: "Kwaku Osei Kwakye | Portfolio",
+  description: "Software Engineer Portfolio",
+};
 
 export default function RootLayout({
   children,
@@ -14,11 +25,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={cn("antialiased", nunito.variable)}
+        className={`${inter.variable} ${outfit.variable} antialiased`}
       >
-       <ThemeProvider>
         {children}
-       </ThemeProvider>
       </body>
     </html>
   );

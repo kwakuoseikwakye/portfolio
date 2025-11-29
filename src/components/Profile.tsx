@@ -4,6 +4,7 @@ import Image from "next/image";
 
 import { FaStackOverflow } from "react-icons/fa6";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { Mail } from "lucide-react";
 
 import {
     Card,
@@ -15,78 +16,79 @@ const socials = [
     {
         name: "Github",
         link: "https://github.com/kwakuoseikwakye",
-        icon: <FaGithub className="size-4" />
+        icon: <FaGithub className="size-5" />
     },
     {
         name: "LinkedIn",
         link: "https://linkedin.com/in/kwaku-osei-kwakye-2a5280132",
-        icon: <FaLinkedin className="size-4" />
+        icon: <FaLinkedin className="size-5" />
     },
     {
         name: "Stackoverflow",
         link: "https://stackoverflow.com/users/13247079/kwaku",
-        icon: <FaStackOverflow className="size-4" />
+        icon: <FaStackOverflow className="size-5" />
     }
-    // TODO: Add more socials here
 ]
 
 export const Profile = () => {
     return (
-        <Card className="backdrop-blur-xl">
-            <CardContent className="pt-8 pb-8">
-                <div className="flex flex-col items-start gap-4">
-                    <div className="w-full flex flex-row justify-between items-top">
-                        <div className="flex flex-row md:flex-col items-center md:items-start w-full gap-6">
-                            <div className="relative">
-                                <Image
-                                    width={150}
-                                    height={150}
-                                    quality={100}
-                                    src="/kwaku.png"
-                                    alt="Profile Picture"
-                                    className="rounded-2xl size-16 md:w-32 h-32 object-cover border-2 border-white/30 shadow-2xl"
-                                />
-                                <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-white/20 to-transparent"></div>
-                            </div>
-                            <div className="flex flex-col items-start justify-center">
-                                <h1 className="font-bold md:mt-4 text-xl md:text-3xl text-gray-800">Kwaku Osei Kwakye</h1>
-                                <p className="text-sm md:text-lg text-gray-600 font-medium">
-                                    Software Engineer
-                                </p>
-                            </div>
+        <Card className="glass-card border-none overflow-hidden relative group">
+            <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-r from-blue-600/20 to-purple-600/20 blur-xl"></div>
+
+            <CardContent className="pt-12 pb-8 px-6 relative z-10">
+                <div className="flex flex-col items-center text-center gap-6">
+                    <div className="relative">
+                        <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full blur opacity-75 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
+                        <div className="relative">
+                            <Image
+                                width={160}
+                                height={160}
+                                quality={100}
+                                src="/kwaku.png"
+                                alt="Kwaku Osei Kwakye"
+                                className="rounded-full size-32 md:size-40 object-cover border-4 border-background shadow-2xl"
+                                priority
+                            />
                         </div>
                     </div>
 
-                    <Button className="mt-6 w-full text-base font-bold" asChild>
-                        <Link
-                            href="/resume.pdf"
-                            target="_blank"
-                            className="font-bold uppercase tracking-wide"
-                        >
-                            CONTACT ME
-                        </Link>
-                    </Button>
-                    <div className="mt-6 flex flex-col space-y-3 border-t border-gray-200 pt-6 w-full">
-                        {socials.map((s, i) => {
-                            const parts = s.link.split("/");
-                            const username = parts[parts.length - 1];
+                    <div className="space-y-2">
+                        <h1 className="font-heading font-bold text-2xl md:text-3xl text-foreground tracking-tight">
+                            Kwaku Osei Kwakye
+                        </h1>
+                        <p className="text-primary font-medium text-lg">
+                            Software Engineer
+                        </p>
+                        <p className="text-muted-foreground text-sm max-w-[280px] mx-auto leading-relaxed">
+                            Building digital experiences with modern technologies.
+                        </p>
+                    </div>
 
-                            return (
-                                <Link
-                                    key={i}
-                                    href={s.link}
-                                    target="_blank"
-                                    className="cursor-pointer flex items-center gap-3 group p-2 rounded-xl hover:bg-gray-100 transition-all duration-300"
-                                >
-                                    <div className="text-gray-600 group-hover:text-gray-800 transition-colors duration-300">
-                                        {s.icon}
-                                    </div>
-                                    <span className="text-sm text-gray-500 group-hover:text-gray-700 transition-colors duration-300 font-medium">
-                                        /{username}
-                                    </span>
-                                </Link>
-                            )
-                        })}
+                    <div className="flex items-center gap-3 w-full justify-center">
+                        {socials.map((s, i) => (
+                            <Link
+                                key={i}
+                                href={s.link}
+                                target="_blank"
+                                className="p-3 rounded-full bg-secondary/50 hover:bg-primary/10 hover:text-primary text-muted-foreground transition-all duration-300 hover:scale-110"
+                                aria-label={s.name}
+                            >
+                                {s.icon}
+                            </Link>
+                        ))}
+                    </div>
+
+                    <div className="w-full pt-6 border-t border-border/50">
+                        <Button className="w-full rounded-xl font-bold py-6 text-base shadow-lg shadow-primary/20 hover:shadow-primary/40 transition-all duration-300 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 border-none" asChild>
+                            <Link
+                                href="/resume.pdf"
+                                target="_blank"
+                                className="flex items-center gap-2"
+                            >
+                                <Mail className="size-5" />
+                                CONTACT ME
+                            </Link>
+                        </Button>
                     </div>
                 </div>
             </CardContent>
