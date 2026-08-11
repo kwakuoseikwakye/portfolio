@@ -1,42 +1,24 @@
-import Link from 'next/link';
 import type { Metadata } from "next";
-
-import { ArrowLeft } from 'lucide-react';
-
-import {
-  Card,
-  CardTitle,
-  CardFooter,
-  CardHeader,
-  CardContent
-} from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
+import Link from "next/link";
 
 export const metadata: Metadata = {
-    title: '404 - Page Not Found',
-}
+  title: "Page not found",
+};
 
 export default function NotFound() {
   return (
-    <div className="bg-background min-h-screen flex items-center justify-center">
-      <Card className="w-full max-w-md">
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold text-center">404</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <p className="text-center text-muted-foreground">
-            Oops! The page you&apos;re looking for doesn&apos;t exist.
-          </p>
-        </CardContent>
-        <CardFooter className="flex justify-center">
-          <Button asChild>
-            <Link href="/" className="inline-flex items-center">
-              <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Home
-            </Link>
-          </Button>
-        </CardFooter>
-      </Card>
-    </div>
-  )
+    <main className="wrap flex min-h-screen flex-col justify-center py-24">
+      <p className="label">Error 404</p>
+      <h1 className="display mt-6">Not found.</h1>
+      <p className="mt-8 max-w-md leading-relaxed text-muted">
+        That page doesn&apos;t exist. It either moved or never shipped.
+      </p>
+      <Link
+        href="/"
+        className="mt-10 inline-flex h-11 w-fit items-center rounded-[4px] border border-line-strong px-5 text-sm font-medium transition-colors hover:border-foreground"
+      >
+        Back to home
+      </Link>
+    </main>
+  );
 }
