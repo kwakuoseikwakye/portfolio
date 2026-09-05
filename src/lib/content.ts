@@ -1,6 +1,6 @@
 export const profile = {
   name: "Kwaku Osei Kwakye",
-  initials: "KOK.",
+  initials: "KOK",
   role: "Software / AI Engineer",
   location: "Takamatsu, Japan",
   available: "Open to new work",
@@ -8,60 +8,87 @@ export const profile = {
   email: "kwakuoseikwakye@gmail.com",
   resume: "/resume.pdf",
   github: "https://github.com/kwakuoseikwakye",
+  githubUser: "kwakuoseikwakye",
   linkedin: "https://linkedin.com/in/kwakuoseikwakye",
   site: "https://kwakuoseikwakye.github.io",
+  photo: "/kwaku.webp",
+  photoAlt: "/osei.jpeg",
 };
 
-export const stats = [
-  { value: "7+", unit: "", label: "years building internal software" },
-  { value: "40", unit: "%", label: "faster releases after I rebuilt CI/CD" },
-  { value: "150+", unit: "", label: "organizations running on platforms I led" },
+export const taglines = [
+  "Software Engineer",
+  "AI & Agent Workflows",
+  "Backend & Automation",
 ];
 
+export const connect = [
+  { label: "Résumé", href: profile.resume, icon: "file" },
+  { label: "Contact", href: `mailto:${profile.email}`, icon: "send" },
+  { label: "GitHub", href: profile.github, icon: "github" },
+  { label: "LinkedIn", href: profile.linkedin, icon: "linkedin" },
+  { label: "Email", href: `mailto:${profile.email}`, icon: "mail" },
+];
+
+export const skills = [
+  "Python", "TypeScript", "JavaScript", "Go", "PHP", "Rust",
+  "FastAPI", "Node.js", "Express", "Gin", "Next.js", "React", "Tailwind CSS",
+  "PostgreSQL", "MySQL", "MSSQL", "Oracle", "SQLite", "Redis",
+  "OpenAI", "Anthropic", "n8n", "LangChain",
+  "AWS", "GCP", "Docker", "Kubernetes", "Terraform",
+  "GitHub Actions", "Jenkins", "Nginx", "Prometheus", "Git",
+];
+
+// `**…**` marks the run that renders bold + underlined, as in the reference.
 export const about = [
-  "I've spent about seven years building the software companies run on internally. Not the customer-facing product, the thing the ops team opens at 9am. Automation services, dashboards, and the APIs behind them.",
-  "Lately a lot of that has involved LLMs. I care more about whether an AI workflow saves someone an hour a day than whether it demos well, so most of what I build keeps a person in the loop to approve the important parts.",
-  "I usually take a project the whole way: working out what's actually needed, building it, sitting with the team through UAT, then putting it live. Sometimes on my own, sometimes with the people who'll be using it every day.",
+  "I'm Kwaku — a software and AI engineer with 7+ years building the systems companies actually run on internally, not the thing on the marketing site.",
+  "I build end to end with **Python, TypeScript, Go, FastAPI and Next.js** — from schema and API design through to the dashboard someone opens at 9am.",
+  "Most of my recent work is **LLM agents, tool use and workflow automation**, built so a person still approves the parts that matter.",
+  "On infrastructure I work with **AWS, Docker, Kubernetes and GitHub Actions**, with a bias toward releases that are boring and observable.",
 ];
 
-export const capabilities = [
+export const focus = [
+  "AI & Agent Workflows",
+  "Backend & Automation",
+  "Data & Dashboards",
+  "Cloud & Deployment",
+];
+
+export const outcomes = [
   {
-    label: "AI and agent workflows",
-    items:
-      "LLM APIs (OpenAI, Anthropic) · agents with tool use, function calling and multi-turn state · workflow automation in n8n · approval-gated and human-in-the-loop pipelines · NLP · speech-to-text",
+    title: "Shipped a national COVID-19 vaccination tracking system",
+    note: "Mar 2021",
+    detail: "Redis absorbed the traffic spikes; it held.",
   },
   {
-    label: "Backend and automation",
-    items:
-      "Python · FastAPI · Node.js / Express · Go (Gin) · REST API design · SDKs · JWT auth · microservices",
+    title: "Real-time voice translation under 300ms across 42 languages",
+    note: "Jun 2024",
+    detail: "Designed the full STT → MT → synthesis pipeline solo.",
   },
   {
-    label: "Data and dashboards",
-    items:
-      "PostgreSQL · MySQL · MSSQL · Oracle · SQLite · custom dashboards in Next.js and React · data-transformation pipelines",
+    title: "Cut release cycles by 40% rebuilding CI/CD on GitHub Actions",
+    note: "Nov 2024",
+    detail: "Containerized AI workloads moved onto AWS in the same pass.",
   },
   {
-    label: "Cloud and deployment",
-    items:
-      "AWS (EC2, Fargate, Cognito, CloudWatch) · GCP · Docker · Kubernetes · Terraform · GitHub Actions · Jenkins · Nginx · Prometheus",
-  },
-  {
-    label: "Languages",
-    items: "Python · TypeScript · JavaScript · Go · PHP · Rust",
-  },
-  {
-    label: "How I work",
-    items:
-      "Requirements first, then design, then UAT with the people who asked for it · Agile / Scrum · JIRA · Confluence · Git · a lot of time spent on performance",
+    title: "Led multi-tenant SaaS for 150+ schools and churches",
+    note: "Feb 2023",
+    detail: "Shared backend services so the team stopped rewriting the basics.",
   },
 ];
 
+/* `start`/`end` are YYYY-MM; `end: null` means present. Duration is derived
+   at render time so the "1 yr 4 mos" line never goes stale.
+   `highlights` is kept as data but not rendered — the reference layout uses
+   one compact row per role. Drop it into the row to bring the detail back. */
 export const experience = [
   {
-    role: "Software / AI Engineer",
     company: "Kirirom Digital",
+    url: "https://kirirom-digital.com",
+    logo: "/logos/kirirom.png",
+    role: "Software / AI Engineer",
     location: "Tokyo, Japan",
-    period: "Jul 2024 to now",
+    start: "2024-07",
+    end: null,
     highlights: [
       "Built the agent orchestration and LLM workflows behind our multilingual forecasting, which replaced a stack of manual steps.",
       "Shipped the REST APIs (FastAPI, Node.js) and internal SDKs the product teams use to add AI features without rebuilding the plumbing every time.",
@@ -71,10 +98,13 @@ export const experience = [
     ],
   },
   {
-    role: "Senior Backend Developer, contract",
     company: "African Innovation Studios",
+    url: null,
+    logo: null,
+    role: "Senior Backend Developer, contract",
     location: "New York, USA (remote)",
-    period: "Feb 2024 to Dec 2024",
+    start: "2024-02",
+    end: "2024-12",
     highlights: [
       "Owned a digital gift-card platform from the first requirements meeting through to production rollout.",
       "Wrote the APIs in Go (Gin) with Redis sitting in front of PostgreSQL, handling auth and a lot of concurrent transactions.",
@@ -83,22 +113,28 @@ export const experience = [
     ],
   },
   {
-    role: "Full-Stack Software Developer",
     company: "PaySwitch",
+    url: "https://payswitch.com.gh",
+    logo: "/logos/payswitch.png",
+    role: "Full-Stack Software Developer",
     location: "Accra, Ghana",
-    period: "Mar 2023 to Jul 2024",
+    start: "2023-03",
+    end: "2024-07",
     highlights: [
-      "Built the settlement dashboard (Next.js, PostgreSQL) that turned messy transaction data into something the ops team could read at a glance, working directly with PMs to get requirements into shipped features.",
+      "Built the settlement dashboard (Next.js, PostgreSQL) that turned messy transaction data into something the ops team could read at a glance.",
       "Built a USSD device-lending platform in Go for MTN Ghana that talked to several payment and banking APIs.",
-      "Designed microservices for financial transaction processing that had to hold up under strict reliability and security requirements.",
+      "Designed microservices for financial transaction processing under strict reliability and security requirements.",
       "Wrote documented, developer-friendly REST APIs and set up CI/CD in a cross-functional Agile team.",
     ],
   },
   {
-    role: "Full-Stack Developer",
     company: "GITPlus",
+    url: null,
+    logo: "/logos/gitplus.png",
+    role: "Full-Stack Developer",
     location: "Accra, Ghana",
-    period: "Jun 2019 to Feb 2023",
+    start: "2019-06",
+    end: "2023-02",
     highlights: [
       "Delivered the national COVID-19 vaccination tracking system, with Redis doing the heavy lifting when traffic spiked.",
       "Led two multi-tenant SaaS platforms: school management for 50+ institutions, and church management for 100+ organizations.",
@@ -114,14 +150,60 @@ export const education = {
   period: "2015 to 2019",
 };
 
-// `url` omitted = rendered as a non-linked row. Add a URL and it becomes a link.
-export const projects = [
+export type Project = {
+  title: string;
+  url?: string;
+  repo?: string;
+  image?: string;
+  featured?: boolean;
+  description: string;
+  tags: string[];
+};
+
+export const projects: Project[] = [
   {
     title: "Jinsoku.ai",
     url: "https://jinsoku.ai",
+    repo: "https://github.com/kwakuoseikwakye/jinsoku-AI",
+    image: "/shots/jinsoku.png",
+    featured: true,
     description:
-      "Real-time voice translation and voice cloning across 42 languages, under 300ms of latency. Founder and solo developer: I designed the whole pipeline myself, speech to text, then machine translation, then voice synthesis, plus the cloud infrastructure it runs on.",
+      "Real-time voice translation and voice cloning across 42 languages, under 300ms of latency. Founder and solo developer: speech to text, machine translation, voice synthesis, plus the cloud infrastructure it runs on.",
     tags: ["Python", "AI Voice", "Cloud Infrastructure", "Full-Stack"],
+  },
+  {
+    title: "Micholin",
+    url: "https://michol.in",
+    image: "/shots/micholin.png",
+    featured: true,
+    description:
+      "An AI platform that generates personal videos in different languages, using text-to-speech and lip-sync models.",
+    tags: ["TypeScript", "Next.js", "AI", "PostgreSQL"],
+  },
+  {
+    title: "Gasppy",
+    url: "https://gasppy.com",
+    image: "/shots/gasppy.png",
+    featured: true,
+    description:
+      "A gift-card platform for businesses to issue, distribute and track cards, with the transaction processing to back it.",
+    tags: ["Next.js", "React", "Node.js", "PostgreSQL"],
+  },
+  {
+    title: "FundPeck",
+    url: "https://fundpeck.com",
+    image: "/shots/fundpeck.png",
+    featured: true,
+    description:
+      "A crowdfunding platform for creators and startups. Handles the money coming in and the payouts going back out.",
+    tags: ["PHP", "Laravel", "Go", "PostgreSQL"],
+  },
+  {
+    title: "Alacrán",
+    repo: "https://github.com/kwakuoseikwakye/alacran",
+    description:
+      "A local-first control panel for running AI coding agents on your own machine. Each workspace gets its own sandbox, files and memory of the project. Nothing lands until you've read the diff and approved it. No hosted backend, no telemetry, MIT licensed.",
+    tags: ["TypeScript", "Next.js", "Python", "Local-first"],
   },
   {
     title: "agent-bridge",
@@ -136,37 +218,33 @@ export const projects = [
     tags: ["n8n", "LLM APIs", "Automation"],
   },
   {
-    title: "Alacrán",
-    url: "https://alacran.vercel.app",
-    description:
-      "A local-first control panel for running AI coding agents on your own machine. Each workspace gets its own sandbox, its own files and its own memory of the project, so Claude Code, Codex or Aider already know what they're working on. Nothing lands until you've read the diff and approved it. No hosted backend, no telemetry, MIT licensed, with builds for macOS and Linux.",
-    tags: ["TypeScript", "Next.js", "Python", "Local-first"],
-  },
-  {
-    title: "Micholin",
-    url: "https://michol.in",
-    description:
-      "An AI platform that generates personal videos in different languages, using text-to-speech and lip-sync models.",
-    tags: ["TypeScript", "Next.js", "AI", "PostgreSQL"],
-  },
-  {
-    title: "Gasppy",
-    url: "https://gasppy.com",
-    description:
-      "A gift-card platform for businesses to issue, distribute and track cards, with the transaction processing to back it.",
-    tags: ["Next.js", "React", "Node.js", "PostgreSQL"],
-  },
-  {
-    title: "FundPeck",
-    url: "https://fundpeck.com",
-    description:
-      "A crowdfunding platform for creators and startups. Handles the money coming in and the payouts going back out.",
-    tags: ["PHP", "Laravel", "Go", "PostgreSQL"],
-  },
-  {
     title: "Bank file conversion system",
     description:
       "A pipeline that decrypts MasterCard and Visa settlement files (IPM, T112, T11) and turns them into CSV a person can actually read.",
     tags: ["Rust", "Python", "PHP", "Data pipeline"],
   },
 ];
+
+export const featuredProjects = projects.filter((p) => p.featured);
+
+const MONTHS = "Jan Feb Mar Apr May Jun Jul Aug Sep Oct Nov Dec".split(" ");
+
+export function formatMonth(ym: string) {
+  const [y, m] = ym.split("-").map(Number);
+  return `${MONTHS[m - 1]} ${y}`;
+}
+
+/** "1 yr 4 mos" between two YYYY-MM points; `end: null` counts to `now`. */
+export function duration(start: string, end: string | null, now: Date) {
+  const [sy, sm] = start.split("-").map(Number);
+  const [ey, em] = end
+    ? end.split("-").map(Number)
+    : [now.getUTCFullYear(), now.getUTCMonth() + 1];
+  const months = Math.max(1, (ey - sy) * 12 + (em - sm) + 1);
+  const y = Math.floor(months / 12);
+  const m = months % 12;
+  const parts = [];
+  if (y) parts.push(`${y} yr${y > 1 ? "s" : ""}`);
+  if (m) parts.push(`${m} mo${m > 1 ? "s" : ""}`);
+  return parts.join(" ");
+}

@@ -1,172 +1,347 @@
 import Image from "next/image";
-import { ArrowUpRight } from "lucide-react";
+import Link from "next/link";
+import {
+  ArrowRight,
+  FileText,
+  Github,
+  Linkedin,
+  Mail,
+  Send,
+  Video,
+} from "lucide-react";
 import {
   about,
-  capabilities,
+  connect,
+  duration,
   education,
   experience,
+  featuredProjects,
+  focus,
+  formatMonth,
+  outcomes,
   profile,
   projects,
-  stats,
+  skills,
+  taglines,
 } from "@/lib/content";
+import { logos } from "@/lib/logos";
+import { getContributions, type Contributions } from "@/lib/github";
+import { Avatar, DotField, MagneticCTA, RotatingRole } from "./interactive";
+import {
+  Divider,
+  ProjectCard,
+  SectionHead,
+  Shell,
+  SiteFooter,
+} from "./shell";
 
-const hostOf = (url: string) => new URL(url).host.replace(/^www\./, "");
+const connectIcons = {
+  file: FileText,
+  send: Send,
+  github: Github,
+  linkedin: Linkedin,
+  mail: Mail,
+} as const;
 
-export default function Home() {
+export default async function Home() {
+  const contributions = await getContributions(profile.githubUser);
+  const now = new Date();
+
   return (
-    <>
-      <Header />
+    <Shell>
       <main>
-        <Hero />
+        <div className="screen-line-bottom h-24 w-full sm:h-32" aria-hidden>
+          <DotField />
+        </div>
+
+        <Hero now={now} />
+        <Divider />
         <About />
+        <Divider />
+        <Connect />
+        <Divider />
+        <Experience now={now} />
+        <Divider />
+        <Activity data={contributions} />
+        <Divider />
         <Work />
-        <Experience />
-        <Contact />
+        <Divider />
+        <Skills />
+        <Divider />
+        <Achievements />
+        <Focus />
       </main>
-      <Footer />
-    </>
+      <SiteFooter />
+    </Shell>
   );
 }
 
-function Header() {
-  return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-background">
-      <div className="wrap flex h-16 items-center justify-between gap-4">
-        <a
-          href="#top"
-          className="inline-flex h-11 items-center font-mono text-sm tracking-[0.14em] text-foreground"
-        >
-          {profile.initials}
-        </a>
+function Hero({ now }: { now: Date }) {
+  const since = duration(experience[0].start, null, now);
 
-        {/* h-11 on every link: the text is 20px tall, which is under the 24px
-            minimum target size on touch. */}
-        <nav className="flex items-center gap-x-5 text-[13px] text-muted sm:gap-x-7 sm:text-sm">
+  return (
+    <header className="flex w-full items-start">
+      <div className="p-3 sm:p-4">
+        <Avatar
+          photo={profile.photo}
+          photoAlt={profile.photoAlt}
+          name={profile.name}
+        />
+      </div>
+      <div className="flex min-w-0 flex-1 flex-col gap-0 pt-3 sm:pt-4">
+        <h1 className="text-xl font-medium text-neutral-700 md:text-2xl dark:text-neutral-50">
+          {profile.name}
+        </h1>
+        <p className="flex min-h-6 items-center text-sm font-medium text-neutral-500/80 md:text-base dark:text-neutral-400">
+          <RotatingRole roles={taglines} />
+        </p>
+        <div className="mt-2 flex flex-wrap items-center gap-2">
           <a
-            href="#work"
-            className="inline-flex h-11 items-center transition-colors hover:text-foreground"
+            href={`mailto:${profile.email}?subject=Intro%20call`}
+            data-ui-feedback="tap"
+            className="btn-solid"
           >
-            Work
-          </a>
-          {/* Dropped on the narrowest phones so the row never wraps. */}
-          <a
-            href="#experience"
-            className="hidden h-11 items-center transition-colors hover:text-foreground min-[400px]:inline-flex"
-          >
-            Experience
+            <Video
+              className="size-3.5 shrink-0 text-yellow-400 dark:text-yellow-600"
+              aria-hidden
+            />
+            Book a call
           </a>
           <a
-            href="#contact"
-            className="inline-flex h-11 items-center transition-colors hover:text-foreground"
+            href={`mailto:${profile.email}`}
+            data-ui-feedback="tap"
+            className="btn-solid"
           >
-            Contact
+            <Mail className="size-3.5 shrink-0" aria-hidden />
+            Send an email
           </a>
-          <a
-            href={profile.resume}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex h-9 items-center rounded-[4px] border border-line-strong px-3 transition-colors hover:border-foreground hover:text-foreground"
-          >
-            Résumé
-          </a>
-        </nav>
+        </div>
+        <p className="sr-only">
+          {profile.role} in {profile.location}. {since} at{" "}
+          {experience[0].company}.
+        </p>
       </div>
     </header>
   );
 }
 
-function Hero() {
+/** Renders `**bold**` runs the way the reference emphasises stack names. */
+function Emphasise({ text }: { text: string }) {
   return (
-    <section id="top" className="wrap pb-20 pt-32 md:pb-28 md:pt-44">
-      <div className="grid gap-14 md:grid-cols-[1fr_auto] md:items-end md:gap-16">
-        <div>
-          <p className="rise label">
-            {profile.role} · {profile.location}
-          </p>
-
-          <h1 className="rise display mt-6 [animation-delay:60ms]">
-            Kwaku Osei
-            <br />
-            Kwakye
-          </h1>
-
-          <p className="rise mt-8 max-w-xl text-lg leading-relaxed text-muted [animation-delay:120ms]">
-            {profile.lede}
-          </p>
-
-          <div className="rise mt-10 flex flex-wrap items-center gap-3 [animation-delay:180ms]">
-            <a
-              href="#work"
-              className="inline-flex h-11 items-center rounded-[4px] bg-accent px-5 text-sm font-medium text-accent-foreground transition-opacity hover:opacity-90"
-            >
-              View work
-            </a>
-            <a
-              href={`mailto:${profile.email}`}
-              className="inline-flex h-11 items-center rounded-[4px] border border-line-strong px-5 text-sm font-medium transition-colors hover:border-foreground"
-            >
-              Get in touch
-            </a>
-          </div>
-        </div>
-
-        <div className="rise [animation-delay:240ms]">
-          <Image
-            src="/kwaku.webp"
-            alt={`${profile.name}, ${profile.role}`}
-            width={640}
-            height={800}
-            priority
-            className="w-full max-w-[10rem] rounded-[4px] border border-line object-cover md:max-w-[17rem]"
-          />
-        </div>
-      </div>
-
-      <ul className="mt-20 grid gap-8 border-t border-line pt-10 sm:grid-cols-3 sm:gap-10">
-        {stats.map((stat) => (
-          <li key={stat.label}>
-            <p className="font-mono text-4xl tracking-tight">
-              {stat.value}
-              <span className="text-accent">{stat.unit}</span>
-            </p>
-            <p className="mt-3 max-w-[17rem] text-sm leading-relaxed text-subtle">
-              {stat.label}
-            </p>
-          </li>
-        ))}
-      </ul>
-    </section>
+    <>
+      {text.split(/\*\*(.+?)\*\*/g).map((part, i) =>
+        i % 2 ? (
+          <b
+            key={i}
+            className="font-medium text-neutral-950 underline underline-offset-2 dark:text-neutral-100"
+          >
+            {part}
+          </b>
+        ) : (
+          part
+        ),
+      )}
+    </>
   );
 }
 
 function About() {
   return (
-    <section id="about" className="section">
-      <div className="wrap doc-grid">
-        <h2 className="label md:pt-1.5">About</h2>
+    <section aria-labelledby="about">
+      <SectionHead id="about" title="About" />
+      <div className="px-5 py-5 sm:px-6 sm:py-6">
+        <ul className="list-disc space-y-2.5 pl-4 text-base font-normal leading-relaxed text-neutral-800 dark:text-neutral-300">
+          {about.map((line) => (
+            <li key={line}>
+              <Emphasise text={line} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  );
+}
 
-        <div>
-          <div className="max-w-2xl space-y-5 text-lg leading-relaxed text-muted">
-            {about.map((paragraph) => (
-              <p key={paragraph}>{paragraph}</p>
-            ))}
-          </div>
-
-          <dl className="mt-14 grid sm:grid-cols-2 sm:gap-x-12">
-            {capabilities.map((capability) => (
-              <div
-                key={capability.label}
-                className="border-t border-line py-5"
+function Connect() {
+  return (
+    <section aria-labelledby="connect">
+      <SectionHead id="connect" title="Connect" />
+      <ul className="connect-grid grid grid-cols-3 gap-2 px-4 py-5 sm:px-5 md:grid-cols-5">
+        {connect.map((c) => {
+          const Icon = connectIcons[c.icon as keyof typeof connectIcons];
+          const external = c.href.startsWith("http");
+          return (
+            <li key={c.label} className="flex min-w-0">
+              <a
+                href={c.href}
+                data-ui-feedback="tap"
+                target={external ? "_blank" : undefined}
+                rel={external ? "noreferrer" : undefined}
+                className="btn-solid w-full"
               >
-                <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.14em]">
-                  {capability.label}
-                </dt>
-                <dd className="mt-2.5 text-sm leading-relaxed text-subtle">
-                  {capability.items}
-                </dd>
+                <Icon className="size-3.5 shrink-0" aria-hidden />
+                <span className="truncate">{c.label}</span>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+function Experience({ now }: { now: Date }) {
+  return (
+    <section aria-labelledby="experience">
+      <SectionHead id="experience" title="Experience" />
+      <ul className="space-y-5 px-4 py-5 sm:px-6">
+        {experience.map((job) => (
+          <li key={job.company} className="flex items-center gap-3">
+            <span className="flex size-10 shrink-0 select-none items-center justify-center">
+              {job.logo ? (
+                <Image
+                  src={job.logo}
+                  alt=""
+                  width={80}
+                  height={80}
+                  className="size-10 rounded-[10px] border border-border object-contain"
+                />
+              ) : (
+                <span
+                  aria-hidden
+                  className="grid size-10 place-items-center rounded-[10px] border border-border bg-muted font-mono text-[11px] text-muted-foreground"
+                >
+                  {job.company
+                    .split(" ")
+                    .map((w) => w[0])
+                    .join("")
+                    .slice(0, 3)}
+                </span>
+              )}
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-baseline justify-between gap-3">
+                <h3 className="min-w-0 truncate text-[15px] font-semibold leading-snug text-foreground">
+                  {job.url ? (
+                    <a
+                      href={job.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="link-underline rounded-sm"
+                    >
+                      {job.company}
+                    </a>
+                  ) : (
+                    job.company
+                  )}
+                </h3>
+                <p className="shrink-0 text-xs tabular-nums text-muted-foreground">
+                  {formatMonth(job.start)} -{" "}
+                  {job.end ? formatMonth(job.end) : "Present"}
+                </p>
               </div>
+              <p className="truncate text-[13px] leading-snug text-muted-foreground">
+                {job.role} <span aria-hidden>•</span> {job.location} -{" "}
+                {duration(job.start, job.end, now)}
+              </p>
+            </div>
+          </li>
+        ))}
+        <li className="flex items-center gap-3">
+          <span
+            aria-hidden
+            className="grid size-10 shrink-0 place-items-center rounded-[10px] border border-border bg-muted font-mono text-[11px] text-muted-foreground"
+          >
+            BSc
+          </span>
+          <div className="min-w-0 flex-1">
+            <div className="flex items-baseline justify-between gap-3">
+              <h3 className="min-w-0 truncate text-[15px] font-semibold leading-snug">
+                {education.school}
+              </h3>
+              <p className="shrink-0 text-xs tabular-nums text-muted-foreground">
+                {education.period.replace(" to ", " - ")}
+              </p>
+            </div>
+            <p className="truncate text-[13px] leading-snug text-muted-foreground">
+              {education.degree}
+            </p>
+          </div>
+        </li>
+      </ul>
+    </section>
+  );
+}
+
+function Activity({ data }: { data: Contributions }) {
+  const cols = data.weeks.length;
+
+  return (
+    <section aria-labelledby="activity">
+      <SectionHead id="activity" title="Activity" />
+      <div className="relative px-4 py-5">
+        <div className="overflow-x-auto pb-1">
+          <div style={{ minWidth: cols * 13 - 3 }}>
+            <div
+              aria-hidden
+              className="mb-1 grid gap-[3px] font-mono text-[10px] text-muted-foreground"
+              style={{ gridTemplateColumns: `repeat(${cols}, 10px)` }}
+            >
+              {data.months.map((m) => (
+                <span
+                  key={m.label + m.col}
+                  style={{ gridColumnStart: m.col + 1 }}
+                  className="whitespace-nowrap"
+                >
+                  {m.label}
+                </span>
+              ))}
+            </div>
+            <div
+              className="grid grid-flow-col gap-[3px]"
+              style={{ gridTemplateRows: "repeat(7, 10px)" }}
+              role="img"
+              aria-label={
+                data.real
+                  ? `${data.total ?? "Some"} contributions in the last year`
+                  : "Decorative activity grid"
+              }
+            >
+              {data.weeks.flatMap((week, w) =>
+                week.map((day, d) => (
+                  <span
+                    key={`${w}-${d}`}
+                    title={day ? `${day.date}` : undefined}
+                    className="size-2.5 rounded-[2px]"
+                    style={{
+                      background: day
+                        ? `var(--contrib-${day.level})`
+                        : "transparent",
+                    }}
+                  />
+                )),
+              )}
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-3 flex items-center justify-between gap-4 font-mono text-[11px] text-muted-foreground">
+          <span>
+            {data.real && data.total
+              ? `${data.total.toLocaleString()} contributions in ${data.range}`
+              : "Commits, most weeks"}
+          </span>
+          <span className="flex items-center gap-1.5">
+            Less
+            {[0, 1, 2, 3, 4].map((l) => (
+              <span
+                key={l}
+                className="size-2.5 rounded-[2px]"
+                style={{ background: `var(--contrib-${l})` }}
+              />
             ))}
-          </dl>
+            More
+          </span>
         </div>
       </div>
     </section>
@@ -175,195 +350,194 @@ function About() {
 
 function Work() {
   return (
-    <section id="work" className="section">
-      <div className="wrap doc-grid">
-        <h2 className="label md:pt-1.5">Selected work</h2>
-
-        <ul>
-          {projects.map((project, index) => {
-            const body = (
-              <>
-                <span className="font-mono text-xs text-subtle md:pt-2">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
-
-                <div>
-                  <h3 className="text-xl font-medium tracking-tight transition-colors group-hover:text-accent md:text-2xl">
-                    {project.title}
-                    {project.url && (
-                      <span className="ml-2 font-mono text-xs font-normal tracking-normal text-subtle">
-                        {hostOf(project.url)}
-                      </span>
-                    )}
-                  </h3>
-                  <p className="mt-3 max-w-2xl leading-relaxed text-muted">
-                    {project.description}
-                  </p>
-                  <p className="mt-4 font-mono text-xs text-subtle">
-                    {project.tags.join("  ·  ")}
-                  </p>
-                </div>
-
-                {project.url && (
-                  <ArrowUpRight
-                    aria-hidden
-                    className="hidden h-5 w-5 shrink-0 text-subtle transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-accent md:mt-2 md:block"
-                  />
-                )}
-              </>
-            );
-
-            const layout =
-              "grid gap-3 py-8 md:grid-cols-[2.5rem_1fr_1.5rem] md:gap-6";
-
-            return (
-              <li
-                key={project.title}
-                className="group border-t border-line first:-mt-8 first:border-t-0"
-              >
-                {project.url ? (
-                  <a
-                    href={project.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={layout}
-                  >
-                    {body}
-                  </a>
-                ) : (
-                  <div className={layout}>{body}</div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
-      </div>
-    </section>
-  );
-}
-
-function Experience() {
-  return (
-    <section id="experience" className="section">
-      <div className="wrap doc-grid">
-        <h2 className="label md:pt-1.5">Experience</h2>
-
-        <ol>
-          {experience.map((job) => (
-            <li
-              key={`${job.company}-${job.period}`}
-              className="grid gap-4 border-t border-line py-9 first:border-t-0 first:pt-0 md:grid-cols-[10rem_1fr] md:gap-10"
+    <section aria-labelledby="projects">
+      <SectionHead
+        id="projects"
+        title="Projects"
+        aside={
+          <span className="font-mono text-[11px] text-muted-foreground">
+            {featuredProjects.length} of {projects.length}
+          </span>
+        }
+      />
+      <div className="relative">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute bottom-0 left-1/2 top-0 z-0 hidden w-px bg-border sm:block"
+        />
+        <div className="relative grid grid-cols-1 sm:grid-cols-2">
+          {featuredProjects.map((project, i) => (
+            <div
+              key={project.title}
+              className={`relative ${
+                i < featuredProjects.length - 1 ? "max-sm:screen-line-bottom" : ""
+              } ${
+                i < featuredProjects.length - 2 ? "sm:screen-line-bottom" : ""
+              }`}
             >
-              <div className="font-mono text-xs leading-relaxed">
-                <p className="text-muted">{job.period}</p>
-                <p className="text-subtle">{job.location}</p>
-              </div>
-
-              <div>
-                <h3 className="text-lg font-medium tracking-tight">
-                  {job.role}
-                  <span className="text-subtle"> at {job.company}</span>
-                </h3>
-
-                <ul className="mt-4 max-w-2xl space-y-3">
-                  {job.highlights.map((highlight) => (
-                    <li
-                      key={highlight}
-                      className="relative pl-5 leading-relaxed text-muted before:absolute before:left-0 before:top-[0.7em] before:h-px before:w-2.5 before:bg-line-strong"
-                    >
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </li>
+              <ProjectCard project={project} index={i} />
+            </div>
           ))}
-
-          <li className="grid gap-4 border-t border-line py-9 md:grid-cols-[10rem_1fr] md:gap-10">
-            <div className="font-mono text-xs leading-relaxed">
-              <p className="text-muted">{education.period}</p>
-            </div>
-
-            <div>
-              <h3 className="text-lg font-medium tracking-tight">
-                {education.degree}
-                <span className="text-subtle"> at {education.school}</span>
-              </h3>
-            </div>
-          </li>
-        </ol>
-      </div>
-    </section>
-  );
-}
-
-function Contact() {
-  return (
-    <section id="contact" className="section">
-      <div className="wrap doc-grid">
-        <h2 className="label md:pt-1.5">Contact</h2>
-
-        <div>
-          <p className="label flex items-center gap-2 text-accent">
-            <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
-            {profile.available}
-          </p>
-
-          <a
-            href={`mailto:${profile.email}`}
-            className="mt-6 block break-words font-medium leading-tight tracking-tight transition-colors hover:text-accent"
-            style={{ fontSize: "clamp(1.15rem, 4.6vw, 2.5rem)" }}
-          >
-            {profile.email}
-          </a>
-
-          <p className="mt-6 max-w-xl leading-relaxed text-muted">
-            I&apos;m in Takamatsu. I&apos;ve worked remotely with teams in New
-            York and Accra before, so a few time zones apart is fine by me.
-          </p>
-
-          <div className="mt-8 flex flex-wrap items-center gap-x-8">
-            <a
-              href={profile.github}
-              target="_blank"
-              rel="noreferrer"
-              className="icon-link link-underline"
-            >
-              GitHub
-            </a>
-            <a
-              href={profile.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              className="icon-link link-underline"
-            >
-              LinkedIn
-            </a>
-            <a
-              href={profile.resume}
-              target="_blank"
-              rel="noreferrer"
-              className="icon-link link-underline"
-            >
-              Résumé (PDF)
-            </a>
-          </div>
         </div>
       </div>
+      <div className="screen-line-top screen-line-bottom relative mt-1 flex w-full items-center justify-center gap-2 px-4 py-2">
+        <Link
+          href="/projects"
+          data-ui-feedback="tap"
+          className="inline-flex h-8 items-center gap-2 rounded-md bg-foreground px-2.5 text-sm font-medium text-background transition-opacity hover:opacity-90"
+        >
+          See all projects
+          <ArrowRight className="size-4" aria-hidden />
+        </Link>
+      </div>
     </section>
   );
 }
 
-function Footer() {
+function Skills() {
   return (
-    <footer className="border-t border-line">
-      <div className="wrap flex flex-col gap-3 py-10 font-mono text-xs text-subtle sm:flex-row sm:items-center sm:justify-between">
-        <p className="tracking-[0.14em] text-muted">{profile.initials}</p>
-        <p>
-          {profile.role} · {profile.location}
-        </p>
-        <p>© {new Date().getFullYear()} {profile.name}</p>
-      </div>
-    </footer>
+    <section aria-labelledby="skills">
+      <SectionHead
+        id="skills"
+        title="Skills"
+        aside={
+          <span className="font-mono text-[11px] text-muted-foreground">
+            {skills.length}
+          </span>
+        }
+      />
+      <ul className="flex flex-wrap gap-2 px-4 py-5 sm:px-5">
+        {skills.map((skill) => {
+          const logo = logos[skill];
+          return (
+            <li key={skill} className="flex">
+              <span className="inline-flex select-none items-center gap-1.5 whitespace-nowrap rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground transition-colors hover:border-neutral-400 dark:hover:border-neutral-600">
+                {logo && (
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden
+                    className="size-3.5 shrink-0"
+                    fill={logo.colour ?? "currentColor"}
+                  >
+                    <path d={logo.d} />
+                  </svg>
+                )}
+                {skill}
+              </span>
+            </li>
+          );
+        })}
+      </ul>
+    </section>
+  );
+}
+
+function Achievements() {
+  return (
+    <section aria-labelledby="achievements">
+      <SectionHead id="achievements" title="Achievements" />
+      <ul className="pt-px">
+        {outcomes.map((o) => (
+          <li key={o.title} className="screen-line-bottom relative last:after:hidden">
+            <div className="flex gap-3 p-3 transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-900/40">
+              <span
+                aria-hidden
+                className="mt-2 size-1.5 shrink-0 rounded-full bg-neutral-700 dark:bg-neutral-300"
+              />
+              <div className="min-w-0 flex-1 space-y-1">
+                <div className="flex items-baseline justify-between gap-3">
+                  <h3 className="min-w-0 text-balance text-base font-medium leading-snug">
+                    {o.title}
+                  </h3>
+                  <span className="shrink-0 font-mono text-xs tabular-nums text-muted-foreground">
+                    {o.note}
+                  </span>
+                </div>
+                <p className="text-sm leading-relaxed text-muted-foreground">
+                  {o.detail}
+                </p>
+              </div>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function Focus() {
+  const [top, left, right, bottom] = focus;
+  const label =
+    "absolute text-[10px] text-foreground/50 sm:text-xs md:text-sm";
+
+  return (
+    <div>
+      <Divider />
+      <section
+        aria-label="Areas of focus"
+        className="screen-line-top screen-line-bottom relative border-x border-border px-5 py-8"
+      >
+        <div className="relative mx-auto w-full max-w-xs sm:max-w-md md:max-w-lg">
+          <div className="relative aspect-square w-full">
+            {[
+              "left-1/2 top-0 -translate-x-1/2",
+              "left-[2%] top-[22%]",
+              "right-[2%] top-[22%]",
+              "bottom-0 left-1/2 -translate-x-1/2",
+            ].map((pos) => (
+              <div
+                key={pos}
+                aria-hidden
+                className={`absolute h-[55%] w-[55%] rounded-full border border-foreground/10 ${pos}`}
+              />
+            ))}
+
+            <span
+              className={`${label} left-1/2 top-[14%] max-w-[46%] -translate-x-1/2 -translate-y-1/2 text-balance text-center`}
+            >
+              {top}
+            </span>
+            <span
+              className={`${label} left-[15%] top-1/2 max-w-[28%] -translate-x-1/2 -translate-y-1/2 text-balance text-center`}
+            >
+              {left}
+            </span>
+            <span
+              className={`${label} right-[15%] top-1/2 max-w-[28%] -translate-y-1/2 translate-x-1/2 text-balance text-center`}
+            >
+              {right}
+            </span>
+            <span
+              className={`${label} bottom-[14%] left-1/2 max-w-[46%] -translate-x-1/2 translate-y-1/2 text-balance text-center leading-tight`}
+            >
+              {bottom}
+            </span>
+
+            <Image
+              src={profile.photo}
+              alt=""
+              aria-hidden
+              width={160}
+              height={160}
+              className="absolute left-1/2 top-1/2 size-14 -translate-x-1/2 -translate-y-1/2 overflow-hidden rounded-full border-2 border-background object-cover shadow-md sm:size-16 sm:border-4 md:size-20"
+            />
+          </div>
+        </div>
+
+        <div
+          id="contact"
+          className="flex w-full flex-col items-center px-5 pb-0 pt-2 sm:px-10"
+        >
+          <p className="mb-5 text-balance text-center text-sm opacity-70 md:text-lg">
+            Still reading? That means something clicked. Let&apos;s talk.
+          </p>
+          <MagneticCTA
+            href={`mailto:${profile.email}?subject=Let%27s%20talk`}
+            photo={profile.photo}
+            label="Book a free call"
+          />
+        </div>
+      </section>
+    </div>
   );
 }

@@ -2,26 +2,33 @@ import type { Config } from "tailwindcss";
 
 export default {
 	content: ["./src/**/*.{ts,tsx}"],
+	// The theme toggle sets .dark on <html>; without this, `dark:` utilities
+	// would follow the OS setting instead and silently do nothing.
+	darkMode: "class",
 	theme: {
 		extend: {
 			fontFamily: {
-				sans: ["var(--font-inter)", "ui-sans-serif", "system-ui", "sans-serif"],
+				sans: ["Satoshi", "ui-sans-serif", "system-ui", "sans-serif"],
 				mono: ["var(--font-mono)", "ui-monospace", "monospace"],
+				pixel: ["var(--font-pixel)", "ui-monospace", "monospace"],
 			},
 			colors: {
-				background: "hsl(var(--bg))",
-				raised: "hsl(var(--raised))",
-				line: {
-					DEFAULT: "hsl(var(--line))",
-					strong: "hsl(var(--line-strong))",
+				// Alpha-capable: /70 modifiers resolve against the raw oklch triple.
+				background: "oklch(var(--base-oklch) / <alpha-value>)",
+				foreground: "oklch(var(--fg-oklch) / <alpha-value>)",
+				// Pre-mixed tokens — no alpha modifier, they already carry one.
+				border: "var(--border)",
+				accent: "var(--accent)",
+				ring: "var(--ring)",
+				muted: {
+					DEFAULT: "var(--muted)",
+					foreground: "var(--muted-foreground)",
 				},
-				foreground: "hsl(var(--fg))",
-				muted: "hsl(var(--fg-muted))",
-				subtle: "hsl(var(--fg-subtle))",
-				accent: {
-					DEFAULT: "hsl(var(--accent))",
-					foreground: "hsl(var(--accent-fg))",
-				},
+			},
+			borderRadius: {
+				lg: "var(--radius)",
+				md: "calc(var(--radius) - 2px)",
+				sm: "calc(var(--radius) - 4px)",
 			},
 		},
 	},

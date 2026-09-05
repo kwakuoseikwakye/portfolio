@@ -2,93 +2,223 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Two raw oklch triples drive everything. Tailwind reads them through
+   `oklch(var(--fg-oklch) / <alpha-value>)`, so /70-style opacity modifiers
+   keep working; the derived tokens below are mixes against those two. */
 :root {
+  color-scheme: light;
+
+  --base-oklch: 100% 0 0;
+  --fg-oklch: 14.5% 0 0;
+
+  --radius: 0.625rem;
+
+  --border: color-mix(in oklab, oklch(var(--fg-oklch)) 9%, oklch(var(--base-oklch)));
+  --muted: color-mix(in oklab, oklch(var(--fg-oklch)) 3.5%, oklch(var(--base-oklch)));
+  --muted-foreground: color-mix(in oklab, oklch(var(--fg-oklch)) 52%, oklch(var(--base-oklch)));
+  --accent: color-mix(in oklab, oklch(var(--fg-oklch)) 3.5%, oklch(var(--base-oklch)));
+  --ring: color-mix(in oklab, oklch(var(--fg-oklch)) 34%, oklch(var(--base-oklch)));
+
+  --dot: color-mix(in oklab, #a1a1aa 60%, transparent);
+
+  --contrib-0: color-mix(in oklab, oklch(var(--fg-oklch)) 7%, oklch(var(--base-oklch)));
+  --contrib-1: #9be9a8;
+  --contrib-2: #40c463;
+  --contrib-3: #30a14e;
+  --contrib-4: #216e39;
+}
+
+.dark {
   color-scheme: dark;
 
-  --bg: 0 0% 4%;
-  --raised: 0 0% 7%;
-  --line: 0 0% 15%;
-  --line-strong: 0 0% 26%;
-  --fg: 0 0% 97%;
-  --fg-muted: 0 0% 64%;
-  --fg-subtle: 0 0% 53%;
-  --accent: 38 90% 60%;
-  --accent-fg: 0 0% 5%;
+  --base-oklch: 14.5% 0 0;
+  --fg-oklch: 98.5% 0 0;
+
+  --border: color-mix(in oklab, oklch(var(--fg-oklch)) 10%, oklch(var(--base-oklch)));
+  --muted: color-mix(in oklab, oklch(var(--fg-oklch)) 9%, oklch(var(--base-oklch)));
+  --muted-foreground: color-mix(in oklab, oklch(var(--fg-oklch)) 67%, oklch(var(--base-oklch)));
+  --accent: color-mix(in oklab, oklch(var(--fg-oklch)) 12%, oklch(var(--base-oklch)));
+  --ring: color-mix(in oklab, oklch(var(--fg-oklch)) 49%, oklch(var(--base-oklch)));
+
+  --dot: color-mix(in oklab, #52525b 60%, transparent);
+
+  --contrib-1: #0e4429;
+  --contrib-2: #006d32;
+  --contrib-3: #26a641;
+  --contrib-4: #39d353;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+    scrollbar-width: thin;
+  }
+
+  body,
+  html {
+    max-width: 100%;
+    overflow-x: clip;
   }
 
   body {
     @apply bg-background font-sans text-foreground antialiased;
-    font-feature-settings: "cv11", "ss01";
   }
 
-  /* The fixed header would otherwise cover the top of an anchored section. */
   [id] {
-    scroll-margin-top: 6rem;
+    scroll-margin-top: 5rem;
   }
 
   ::selection {
-    @apply bg-accent text-accent-foreground;
+    background-color: color-mix(in oklab, oklch(var(--fg-oklch)) 82%, transparent);
+    color: oklch(var(--base-oklch));
   }
 
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--border);
+    border-radius: 999px;
+  }
+
+  /* An outline, not a box-shadow: it follows each element's own radius and
+     leaves shadow-* utilities alone. Kept at ~4.5:1 so it stays visible. */
   :focus-visible {
-    @apply rounded-sm outline-none ring-2 ring-accent ring-offset-4 ring-offset-background;
+    outline: 2px solid oklch(var(--fg-oklch) / 0.65);
+    outline-offset: 2px;
   }
 
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
     }
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  .cursor-none,
+  .cursor-none * {
+    cursor: none !important;
   }
 }
 
 @layer components {
-  .wrap {
-    @apply mx-auto w-full max-w-5xl px-6 md:px-10;
+  /* Hairlines drawn as pseudo-elements so a row can carry a rule without
+     the border participating in its box model. */
+  .screen-line-top {
+    position: relative;
+  }
+  .screen-line-top::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 1px;
+    background-color: var(--border);
+    pointer-events: none;
   }
 
-  /* Section shell: hairline divider + vertical rhythm. */
-  .section {
-    @apply border-t border-line py-20 md:py-28;
+  .screen-line-bottom {
+    position: relative;
+  }
+  .screen-line-bottom::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 1;
+    width: 100%;
+    height: 1px;
+    background-color: var(--border);
+    pointer-events: none;
   }
 
-  /* Docs-style layout: small label in a left gutter, content on the right. */
-  .doc-grid {
-    @apply grid gap-8 md:grid-cols-[8rem_1fr] md:gap-14;
+  /* Mobile connect tiles: rules above and below every odd cell, so the
+     3-across grid keeps its horizontal banding before the 5-col breakpoint. */
+  .connect-grid li {
+    position: relative;
+  }
+  @media (max-width: 767px) {
+    .connect-grid li:nth-child(odd)::before,
+    .connect-grid li:nth-child(odd)::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      z-index: 1;
+      width: 100%;
+      height: 1px;
+      background-color: var(--border);
+      pointer-events: none;
+    }
+    /* Without these both pseudos fall back to the same static position and
+       stack on one row, leaving no bottom hairline at all. */
+    .connect-grid li:nth-child(odd)::before {
+      top: 0;
+    }
+    .connect-grid li:nth-child(odd)::after {
+      bottom: 0;
+    }
   }
 
-  .label {
-    @apply font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-subtle;
+  .btn-solid {
+    @apply inline-flex items-center justify-center gap-[5px] overflow-hidden whitespace-nowrap rounded-md border border-transparent bg-foreground px-2 py-1 text-xs font-medium leading-4 text-background transition-opacity hover:opacity-90;
   }
 
-  .display {
-    @apply font-semibold leading-[0.94] tracking-[-0.035em];
-    font-size: clamp(2.6rem, 9vw, 5.25rem);
+  .btn-outline {
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-md border border-border bg-background px-2 py-1 text-xs font-medium text-foreground transition-colors hover:border-neutral-400 dark:hover:border-neutral-600;
   }
 
-  /* Hit area padded to 44px without changing the icon's visual size. */
-  .icon-link {
-    @apply inline-flex h-11 items-center gap-2 text-sm text-muted transition-colors hover:text-accent;
+  .dot-band {
+    background-image: radial-gradient(var(--dot) 1px, transparent 0);
+    background-size: 10px 10px;
+    background-position: center;
+    -webkit-mask-image: linear-gradient(to left, #000 95%, transparent),
+      linear-gradient(to right, #000 95%, transparent),
+      linear-gradient(#000 90%, transparent),
+      linear-gradient(to top, #000 90%, transparent);
+    mask-image: linear-gradient(to left, #000 95%, transparent),
+      linear-gradient(to right, #000 95%, transparent),
+      linear-gradient(#000 90%, transparent),
+      linear-gradient(to top, #000 90%, transparent);
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
   }
 }
 
 @layer utilities {
   .link-underline {
-    @apply underline decoration-line-strong decoration-1 underline-offset-4 transition-colors hover:decoration-accent hover:text-accent;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    text-decoration-color: color-mix(in oklab, currentColor 35%, transparent);
+    transition: text-decoration-color 0.15s;
+  }
+  .link-underline:hover {
+    text-decoration-color: currentColor;
   }
 
-  /* Hero entrance only, and time-based on purpose: a scroll-driven timeline
-     can park an element at opacity 0 (very tall viewports, print), which is
-     how a portfolio ends up invisible. Everything below the fold is simply
-     visible. */
+  .inset-highlight {
+    box-shadow:
+      inset 0 1px 0 color-mix(in oklab, oklch(var(--base-oklch)) 70%, transparent),
+      0 4px 6px -1px rgb(0 0 0 / 0.1),
+      0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+
   @media (prefers-reduced-motion: no-preference) {
     .rise {
-      animation: rise 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation: rise 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
   }
 }
@@ -96,7 +226,7 @@
 @keyframes rise {
   from {
     opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
