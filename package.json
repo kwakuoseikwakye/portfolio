@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "card:pdf": "node scripts/build-card-pdf.mjs",
+    "card:vcard": "node scripts/build-vcard.mjs",
+    "card:pass": "node scripts/build-pass.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.456.0",

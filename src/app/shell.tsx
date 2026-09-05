@@ -13,12 +13,15 @@ import {
 
 const NAV = [
   { label: "Projects", href: "/projects" },
+  { label: "Card", href: "/card" },
   { label: "Contact", href: `mailto:${profile.email}` },
 ];
 
 const COMMANDS: CommandItem[] = [
   { group: "Pages", label: "Home", href: "/" },
   { group: "Pages", label: "All projects", href: "/projects" },
+  { group: "Pages", label: "Business card", href: "/card" },
+  { group: "Links", label: "Save contact (vCard)", href: "/card/kwaku-osei-kwakye.vcf" },
   // "/#id" so these still work from /projects, where the section is absent.
   { group: "Sections", label: "About", href: "/#about" },
   { group: "Sections", label: "Connect", href: "/#connect" },
